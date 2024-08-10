@@ -1,3 +1,4 @@
+import axios from "axios";
 import loginPNG from "@/assets/login.png";
 import victory from "@/assets/victory.svg";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -19,12 +21,33 @@ const AuthPage = () => {
         title: "Please enter your email",})
         return false;
     }
+    if(!password.length){
+      toast({
+        variant: "destructive",
+        title: "Please enter your paswword",})
+        return false;
+    }
+    if(!confirmPassword.length || password!=confirmPassword){
+      toast({
+        variant: "destructive",
+        title: "Password and confirm password should be same",})
+        return false;
+    }
+
     return true;
   }
   const handleSignup=async()=>{
-     if(validateSignup()){
-       alert("Done")
-     }
+    try{
+      if(validateSignup()){
+      
+        const response=await axios.post(`${SERVER_URL}/signup`,{email,password});
+        console.log(response);
+       
+      }
+    }catch(err){
+      console.log(err.message);
+    }
+     
   }
   const handleLogin=async()=>{}
   return (
@@ -92,7 +115,7 @@ const AuthPage = () => {
                 />
                 <Input
                   placeholder="Enter Confirm Password"
-                  type="confirmpassword"
+                  type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="rounded-full p-6"
