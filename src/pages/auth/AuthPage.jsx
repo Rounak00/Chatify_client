@@ -2,16 +2,31 @@ import loginPNG from "@/assets/login.png";
 import victory from "@/assets/victory.svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast"
+
 const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+  const { toast } = useToast()
+
+  const validateSignup=()=>{
+    if(!email.length){
+      toast({
+        variant: "destructive",
+        title: "Please enter your email",})
+        return false;
+    }
+    return true;
+  }
+  const handleSignup=async()=>{
+     if(validateSignup()){
+       alert("Done")
+     }
+  }
   const handleLogin=async()=>{}
-  const handleSignup=async()=>{}
   return (
     <div className="flex h-[100vh] w-[100vw] justify-center items-center">
       <div className="h-[80vh] w-[80vw] bg-white border-2 border-white text-opacity-90 shadow-2xl md:w-[90vw] lg:w-[70vw] xl:w-[60vw] rounded-3xl grid xl:grid-cols-2">
