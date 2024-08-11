@@ -12,8 +12,8 @@ function App() {
     <>
       <BrowserRouter>
      <Routes>
+        <Route path="/" element={<ChatPage/>}/>
         <Route path="/auth" element={<AuthPage/>}/>
-        <Route path="/chat" element={<ChatPage/>}/>
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="*" element={<ErrorPage/>}/>
      </Routes>

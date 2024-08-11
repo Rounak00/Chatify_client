@@ -36,20 +36,43 @@ const AuthPage = () => {
 
     return true;
   }
+  const validateLogin=()=>{
+    if(!email.length){
+      toast({
+        variant: "destructive",
+        title: "Please enter your email",})
+        return false;
+    }
+    if(!password.length){
+      toast({
+        variant: "destructive",
+        title: "Please enter your paswword",})
+        return false;
+    }
+   return true;
+  }
   const handleSignup=async()=>{
+    
     try{
       if(validateSignup()){
-      
-        const response=await axios.post(`${SERVER_URL}/signup`,{email,password});
+        const response=await axios.post(`${SERVER_URL}/signup`,{email,password},{withCredentials:true});
         console.log(response);
-       
       }
     }catch(err){
       console.log(err.message);
     }
      
   }
-  const handleLogin=async()=>{}
+  const handleLogin=async()=>{
+    try{
+      if(validateLogin()){
+        const response=await axios.post(`${SERVER_URL}/login`,{email,password},{withCredentials:true});
+        console.log(response.data);
+      }
+    }catch(err){
+      console.log(err.message);
+    }
+  }
   return (
     <div className="flex h-[100vh] w-[100vw] justify-center items-center">
       <div className="h-[80vh] w-[80vw] bg-white border-2 border-white text-opacity-90 shadow-2xl md:w-[90vw] lg:w-[70vw] xl:w-[60vw] rounded-3xl grid xl:grid-cols-2">
