@@ -6,9 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
+import { useNavigate } from "react-router-dom";
+import { useAppStore } from "@/store";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const AuthPage = () => {
+  const navigate=useNavigate();
+  const {setUserInfo}=useAppStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -56,7 +60,10 @@ const AuthPage = () => {
     try{
       if(validateSignup()){
         const response=await axios.post(`${SERVER_URL}/signup`,{email,password},{withCredentials:true});
-        console.log(response);
+        if(response.status===201){
+          setUserInfo(response.data)
+          navigate("/profile")
+        }
       }
     }catch(err){
       console.log(err.message);
@@ -67,7 +74,11 @@ const AuthPage = () => {
     try{
       if(validateLogin()){
         const response=await axios.post(`${SERVER_URL}/login`,{email,password},{withCredentials:true});
-        console.log(response.data);
+        if(response.data.id){
+          setUserInfo(response.data)
+          if(response.data.profileSetup){navigate("/chat")}
+          else {navigate("/profile")}
+        }
       }
     }catch(err){
       console.log(err.message);
