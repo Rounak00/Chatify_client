@@ -1,5 +1,5 @@
 import { useAppStore } from "@/store";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { FaTrash, FaPlus } from "react-icons/fa";
@@ -22,12 +22,17 @@ const ProfilePage = () => {
   const [image, setImage] = useState(null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
-  
+  const fileInputRef=useRef(null);
+
    useEffect(()=>{
     if(userInfo.profileSetup){
       setFname(userInfo.fname)
       setLname(userInfo.lname)
       setSelectedColor(userInfo.color)
+    
+    }
+    if(userInfo.image){
+      setImage(`${SERVER_URL}/${userInfo.image}`)
     }
    },[userInfo])
 
@@ -71,6 +76,45 @@ const ProfilePage = () => {
         return false;
     }
   }
+  const handleFileInputClick=()=>{
+    fileInputRef.current.click();
+  }
+  const handleIamgeChange=async(event)=>{
+    try{
+     const file=event.target.files[0];
+     if(file){
+      const formData=new FormData();
+      formData.append("profile-image",file);
+      const response=await axios.post(`${SERVER_URL}/add_profile_image`,formData,{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        withCredentials:true
+      })
+      if(response.status===200&&response.data.image){
+        setUserInfo({...userInfo,image:response.data.image});
+        toast({title: "Profile picture added successfully"});
+      }}
+     }catch(err){console.log(err)}
+      // const reader=new FileReader();
+      // reader.onload=()=>{
+      //   setImage(reader.result)
+      // }
+      // reader.readAsDataURL(file);
+     }
+  
+  const handleDeleteImage=async()=>{
+       try{
+          const response=await axios.delete(`${SERVER_URL}/remove_profile_image`,{withCredentials:true})
+          if(response.status===200){
+            setUserInfo({...userInfo,image:null}),
+            toast({title: "Profile picture removed successfully"});
+            setImage(null);
+          }
+       }catch(err){
+        console.log(err)
+       }
+  }
   
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
@@ -93,13 +137,13 @@ const ProfilePage = () => {
               userInfo.email.split("").shift()}</div>
               )}
             </Avatar>
-            {hovered && (<div className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer rounded-full ">
+            {hovered && (<div className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer rounded-full " onClick={(event)=>{image ? handleDeleteImage(event):handleFileInputClick(event)}}>
                 {image? 
                 <FaTrash className="text-white text-3xl cursor-pointer "/>
                 :
                 <FaPlus className="text-white text-3xl cursor-pointer "/>}
             </div>)}
-            {/*<input/>*/}
+            <input type="file" ref={fileInputRef} className="hidden" onChange={handleIamgeChange} name="profile-image" accept=".jpg, .png, .jpeg, .webp"/>
           </div>
            <div className="flex min-w-32 md:min-w-64 flex-col gap-6 text-white items-center justify-center">
                  <div className="w-full">
