@@ -1,5 +1,5 @@
 import { useAppStore } from "@/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { FaTrash, FaPlus } from "react-icons/fa";
@@ -7,25 +7,76 @@ import { Avatar,  AvatarImage } from "@/components/ui/avatar"
 import { colors, getColor } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast"
+import axios from "axios";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 
 const ProfilePage = () => {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const { userInfo, setUserInfo } = useAppStore();
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [image, setImage] = useState(null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  
+   useEffect(()=>{
+    if(userInfo.profileSetup){
+      setFname(userInfo.fname)
+      setLname(userInfo.lname)
+      setSelectedColor(userInfo.color)
+    }
+   },[userInfo])
 
-  const saveChanges = async () => {};
+  const validateProfile=()=>{
+    if(!fname ){
+      toast({
+        variant: "destructive",
+        title: "Please enter your first name",})
+        return false;
+    }
+    if(!lname ){
+      toast({
+        variant: "destructive",
+        title: "Please enter your last name",})
+        return false;
+    }
+    return true
+  };
+  
+  const saveChanges = async () => {
+    if(validateProfile()){
+      try{
+         const response=await axios.post(`${SERVER_URL}/update_profile`,{fname,lname,color:selectedColor},{withCredentials:true});
+         if(response.status===200 && response.data){
+          setUserInfo({...response.data});
+          toast({
+            description: "Profile updated successfully",
+          });
+          navigate("/chat");
+         }
+      }catch(error){console.log(error)}
+    }
+  };
+  const handleNavigate=()=>{
+    if(userInfo.profileSetup){
+      navigate("/chat")
+    }else{
+      toast({
+        variant: "destructive",
+        title: "Please complete profile setup first",})
+        return false;
+    }
+  }
+  
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
         <div>
-          <IoArrowBack className="text-4xl lg:text-6xl text-white/90 cursor-pointer"/>
+          <IoArrowBack className="text-4xl lg:text-6xl text-white/90 cursor-pointer" onClick={handleNavigate }/>
         </div>
         <div className="grid grid-cols-2">
           <div className="h-full w-32 md:h-48 relative flex items-center justify-center"
@@ -42,7 +93,7 @@ const ProfilePage = () => {
               userInfo.email.split("").shift()}</div>
               )}
             </Avatar>
-            {hovered && (<div className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer rounded-full ring-fuchsia-50">
+            {hovered && (<div className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer rounded-full ">
                 {image? 
                 <FaTrash className="text-white text-3xl cursor-pointer "/>
                 :
