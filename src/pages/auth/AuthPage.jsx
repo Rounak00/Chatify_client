@@ -81,7 +81,7 @@ const AuthPage = () => {
         }
       }
     }catch(err){
-      console.log(err.message);
+      console.log(err);
     }
   }
   return (
