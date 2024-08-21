@@ -65,7 +65,7 @@ const MessageBar = () => {
       });
     }
     setMessage("");
-  }
+    }
   }
   const handleAttachmentClick=()=>{
     if(fileInputRef.current){
