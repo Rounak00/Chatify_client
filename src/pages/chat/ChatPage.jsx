@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import ContactContainer from "./__components/ContactContainer";
 import EmptyChatContainer from "./__components/EmptyChatContainer";
-import ChatContainer from "./__components/chatContainer";
+import ChatContainer from "./__components/ChatContainer";
 
 const ChatPage = () => {
   const {userInfo,selectedChatType,
