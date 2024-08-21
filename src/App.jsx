@@ -1,8 +1,7 @@
 
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import AuthPage from './pages/auth/AuthPage'
 import './App.css'
-import ErrorPage from "./pages/error/ErrorPage"
 import ProfilePage from "./pages/profile/ProfilePage"
 import ChatPage from "./pages/chat/ChatPage"
 import { AuthRoute,PrivateRoute } from "./Private"
@@ -47,7 +46,7 @@ function App() {
         <Route path="/auth" element={<AuthRoute><AuthPage/></AuthRoute>}/>
         <Route path="/chat" element={<PrivateRoute><ChatPage/></PrivateRoute>}/>
         <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
-        <Route path="*" element={<ErrorPage/>}/>
+        <Route path="*" element={<Navigate to="/auth"/>}/>
      </Routes>
     </BrowserRouter>
     </>

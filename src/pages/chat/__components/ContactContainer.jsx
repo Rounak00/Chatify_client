@@ -1,20 +1,60 @@
 import PropTypes from 'prop-types';
 import ProfileInfo from './ProfileInfo';
+import NewDM from './NewDM';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useAppStore } from '@/store';
+import ContactList from '@/components/ContactList';
+import CreateChannel from './CreateChannel';
 
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const ContactContainer = () => {
+  const {setDirectMessagesContacts,directMessagesContacts,channels,setChannels}=useAppStore()
+  useEffect(()=>{
+    // /contact/get_contacts_for_DM
+    const getContacts=async()=>{
+       try{
+        const response=await axios.get(`${SERVER_URL}/contact/get_contacts_for_DM`,{withCredentials:true})
+        
+        if(response.data.contacts){
+          setDirectMessagesContacts(response.data.contacts)
+        }
+       }catch(err){console.error(err)}
+    }
+    const getChannels=async()=>{
+      try{
+        const response=await axios.get(`${SERVER_URL}/contact/get_user_channels`,{withCredentials:true})
+        
+        if(response.data.channels){
+          setChannels(response.data.channels)
+        }
+       }catch(err){console.error(err)}
+    }
+    getContacts();
+    getChannels();
+  },[setChannels,setDirectMessagesContacts])
   return (
     <div className="relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] w-full bg-[#1b1c24] border-r-2 border-[#2f303b]">
        <div className="pt-3">
         <Logo/>
        </div>
        <div className="my-5">
-        <div className="flex items-center justify-center pr-10">
+        <div className="flex items-center justify-between pr-10">
           <Title text="Direct Messages" />
+          <NewDM/>
+        </div>
+        <div className='max-h-[38vh] overflow-y-auto scrollbar-hidden'>
+          <ContactList contacts={directMessagesContacts}/>
         </div>
        </div>
        <div className="my-5">
-        <div className="flex items-center justify-center pr-10">
-          <Title text="Group Messages" />
+        <div className="flex items-center justify-between pr-10">
+          <Title text="Channels" />
+          <CreateChannel/>
+        </div>
+        <div className='max-h-[38vh] overflow-y-auto scrollbar-hidden'>
+          <ContactList contacts={channels} isChannel={true}/>
         </div>
        </div>
        <ProfileInfo/>

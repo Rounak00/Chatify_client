@@ -29,9 +29,9 @@ const handleLogOut=async()=>{
 }
 
   return (
-    <div className="absolute bottom-0 h-16 flex items-center justify-start  w-full bg-[#2a2b33] ">
-      <div className="flex gap-3 items-center justify-center ml-3">
-        <div className="w-12 h-12 relative ">
+    <div className="absolute bottom-0 h-16 flex items-center  w-full bg-[#2a2b33] ">
+      <div className="flex gap-3 items-center justify-center ml-5">
+        <div className="w-12 h-12 relative">
           <Avatar className="h-12 w-12 rounded-full overflow-hidden">
             {userInfo.image ? (
               <AvatarImage
@@ -58,7 +58,7 @@ const handleLogOut=async()=>{
             : ``}
         </div>
       </div>
-      <div className="flex w-full items-center justify-evenly">
+      <div className="flex w-full items-center justify-end gap-10 mr-5">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
