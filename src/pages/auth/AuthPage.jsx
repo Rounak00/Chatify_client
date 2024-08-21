@@ -62,6 +62,7 @@ const AuthPage = () => {
       if(validateSignup()){
         const response=await axios.post(`${SERVER_URL}/signup`,{email,password},{withCredentials:true});
         if(response.status===201){
+          localStorage.setItem("chatify", JSON.stringify(response.data.access_token));
           setUserInfo(response.data)
           navigate("/profile")
         }
@@ -76,6 +77,7 @@ const AuthPage = () => {
       if(validateLogin()){
         const response=await axios.post(`${SERVER_URL}/login`,{email,password},{withCredentials:true});
         if(response.data.id){
+          localStorage.setItem("chatify", JSON.stringify(response.data.access_token));
           setUserInfo(response.data)
           if(response.data.profileSetup){navigate("/chat")}
           else {navigate("/profile")}
