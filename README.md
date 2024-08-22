@@ -18,8 +18,9 @@ Currently, two official plugins are available:
 - Chat Screen
 - Profile Setup Screen
   <br />
-
-## Quick Glimpses of the site :
+## Backend of the Project: https://github.com/Rounak00/Chatify_server
+<br/><br/>
+## Quick Glimpses of the site : 
 
  <table>
   <tr>
