@@ -31,7 +31,7 @@ Currently, two official plugins are available:
     <td>Search Contact<img src="./ScreenShots/search.png" alt="SearchContact" /></td>
   </tr>
   <tr>
-    <td>Selected Chat Pagee<img src="./ScreenShots/chat.png" alt="SelectedChatPage" /></td>
+    <td colspan="2">Selected Chat Pagee<img src="./ScreenShots/chat.png" alt="SelectedChatPage" /></td>
   </tr>
 <tr>
     <td>Image Viewer Component<img src="./ScreenShots/imageView.png" alt="ImageViewerComponent" /></td>
