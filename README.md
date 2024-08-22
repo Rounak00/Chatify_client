@@ -14,51 +14,32 @@ Currently, two official plugins are available:
  <br />
 
 ## Screens
-- Home Page
-- Multivendor Register & Login type Page
-- Register and Login for Admin, User and Fisherman Page
-- Admin Dashboard Page
-- Admin Approve and Revoke Page
-- Fisherman Not Approved Page
-- Fisherman Remove and Add Product Page
-- Single Product Page
-- Cart Page
-- About Page
-- Contact Page
+- SigbIn or SignUp Screen
+- Chat Screen
+- Profile Setup Screen
   <br />
 
 ## Quick Glimpses of the site :
 
  <table>
   <tr>
-    <td>Home Page<img src="./ScreenShots/HomePage.png" alt="HomePage" /> </td>
-    <td>Register or Login Type Page<img src="./ScreenShots/Reistration_Login_Type.png" alt="ReistrationLoginTypePage" /></td>
+    <td>Auth Page<img src="./ScreenShots/auth.png" alt="AuthPage" /> </td>
+    <td>Profile Setup Page<img src="./ScreenShots/profile.png" alt="ProfileSetupPage" /></td>
   </tr>
   <tr>
-    <td>Fisherman Register Page<img src="./ScreenShots/Fisherman_register.png" alt="FishermanRegisterPage" /></td>
-    <td>Customer Register Page<img src="./ScreenShots/Customer_Register.png" alt="CustomerRegisterPage" /></td>
+    <td>Non Selected Chat Page<img src="./ScreenShots/emptyChat.png" alt="Non Selected Chat Page" /></td>
+    <td>Search Contact<img src="./ScreenShots/search.png" alt="SearchContact" /></td>
   </tr>
   <tr>
-    <td>Login Page<img src="./ScreenShots/Customer_Login.png" alt="LoginPage" /></td>
-    <td>Single Product Page<img src="./ScreenShots/Customer_SingleProductPage.png" alt="SingleProductPage" /></td>
+    <td>Selected Chat Pagee<img src="./ScreenShots/chat.png" alt="SelectedChatPage" /></td>
   </tr>
 <tr>
-    <td>About Page<img src="./ScreenShots/About.png" alt="AboutPage" /></td>
-    <td>Contact Page<img src="./ScreenShots/Contact.png" alt="ContactPage" /></td>
+    <td>Image Viewer Component<img src="./ScreenShots/imageView.png" alt="ImageViewerComponent" /></td>
+    <td>Upload File Component<img src="./ScreenShots/upload.png" alt="UploadFileComponent" /></td>
   </tr>
 <tr>
-    <td>Cart Page<img src="./ScreenShots/Cusotmer_Cart.png" alt="CartPage" /></td>
-    <td>Admin Dashboard Page<img src="./ScreenShots/Admin_Dashboard.png" alt="AdminDashboardPage" /></td>
+    <td>Group Create Component<img src="./ScreenShots/groupCreate.png" alt="GroupCreateComponent" /></td>
+    <td>Group Chat Component<img src="./ScreenShots/groupChat.png" alt="GroupChatComponent" /></td>
   </tr>
-<tr>
-    <td>Admin Fisherman Approve Page<img src="./ScreenShots/Admin_Approval.png" alt="AdminApprovePage" /></td>
-    <td>Admin Fisherman Revoke Page<img src="./ScreenShots/Admin_Revoke.png" alt="AdminRevokePage" /></td>
-  </tr>
-<tr>
-    <td>Fisherman Not Approved Functionality<img src="./ScreenShots/Fisherman_NotApproved.png" alt="Fisherman_NotApproved" /></td>
-    <td>Fisherman Add Product page<img src="./ScreenShots/Fisherman_AddProduct.png" alt="AddProductPage" /></td>
-  </tr>
-<tr>
-    <td>Fisherman Remove Product Page<img src="./ScreenShots/Fisherman_RemoveProduct.png" alt="RemoveProductPage" /></td>
-  </tr>
+
  </table>
