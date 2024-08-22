@@ -89,13 +89,13 @@ const AuthPage = () => {
   }
   return (
     <div className="flex h-[100vh] w-[100vw] justify-center items-center">
-      <div className="h-[80vh] w-[80vw] bg-white border-2 border-white text-opacity-90 shadow-2xl md:w-[90vw] lg:w-[70vw] xl:w-[60vw] rounded-3xl grid xl:grid-cols-2">
+      <div className="h-[80vh] w-[80vw] bg-white border-2 border-white text-opacity-90 shadow-2xl md:w-[90vw] lg:w-[70vw] xl:w-[60vw] rounded-3xl grid xl:grid-cols-2 max-sm:w-[100vw]">
         <div className="flex flex-col justify-center items-center gap-10">
           <div className="flex justify-center items-center flex-col">
             <div className="flex items-center justify-around w-full">
-              <img src={favicon} alt="Chat Logo" className="h-[35px] mr-4" />
-              <h1 className="text-3xl font-bold md:text-4xl">Welcome User</h1>
-              <img src={victory} alt="Victory SVG" className="h-[80px]" />
+              <img src={favicon} alt="Chat Logo" className="h-[35px] mr-4 " />
+              <h1 className="text-3xl font-bold md:text-4xl max-sm:text-2xl">Welcome User</h1>
+              <img src={victory} alt="Victory SVG" className="h-[80px] max-sm:hidden" />
             </div>
             <p className="font-semibold text-xl text-center">Get started with  
               <span className="text-purple-600 font-semibold"> Chatify </span></p>
