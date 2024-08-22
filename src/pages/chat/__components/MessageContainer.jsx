@@ -29,7 +29,8 @@ const MessageContainer = () => {
         const response = await axios.post(
           `${SERVER_URL}/message/get_messages`,
           { id: selectedChatData._id },
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${userInfo.access_token}`},
+            withCredentials: true }
         );
         if (response.data.messages) {
           setSelectedChatMessages(response.data.messages);
@@ -42,7 +43,7 @@ const MessageContainer = () => {
       try {
         const response = await axios.get(
           `${SERVER_URL}/message/get_channel_messages/${selectedChatData._id}`,
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${userInfo.access_token}`},withCredentials: true }
         );
        
         if (response.data.messages) {

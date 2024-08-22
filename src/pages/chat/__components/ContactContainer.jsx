@@ -10,12 +10,12 @@ import CreateChannel from './CreateChannel';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const ContactContainer = () => {
-  const {setDirectMessagesContacts,directMessagesContacts,channels,setChannels}=useAppStore()
+  const {setDirectMessagesContacts,directMessagesContacts,channels,setChannels,userInfo}=useAppStore();
   useEffect(()=>{
     // /contact/get_contacts_for_DM
     const getContacts=async()=>{
        try{
-        const response=await axios.get(`${SERVER_URL}/contact/get_contacts_for_DM`,{withCredentials:true})
+        const response=await axios.get(`${SERVER_URL}/contact/get_contacts_for_DM`,{headers: { Authorization: `Bearer ${userInfo.access_token}`},withCredentials:true})
         
         if(response.data.contacts){
           setDirectMessagesContacts(response.data.contacts)
@@ -24,7 +24,7 @@ const ContactContainer = () => {
     }
     const getChannels=async()=>{
       try{
-        const response=await axios.get(`${SERVER_URL}/contact/get_user_channels`,{withCredentials:true})
+        const response=await axios.get(`${SERVER_URL}/contact/get_user_channels`,{headers: { Authorization: `Bearer ${userInfo.access_token}`},withCredentials:true})
         
         if(response.data.channels){
           setChannels(response.data.channels)
@@ -33,7 +33,7 @@ const ContactContainer = () => {
     }
     getContacts();
     getChannels();
-  },[setChannels,setDirectMessagesContacts])
+  },[])
   return (
     <div className="relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] w-full bg-[#1b1c24] border-r-2 border-[#2f303b]">
        <div className="pt-3">

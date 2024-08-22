@@ -55,11 +55,7 @@ const ProfilePage = () => {
   const saveChanges = async () => {
     if (validateProfile()) {
       try {
-        const isExist = JSON.parse(localStorage.getItem("chatify"));
-        console.log(isExist);
-        if (!isExist) {
-          navigate("/auth");
-        }
+        const isExist = userInfo.access_token;
         
         const response = await axios.post(
           `${SERVER_URL}/update_profile`,
@@ -70,7 +66,8 @@ const ProfilePage = () => {
           }
         );
         if (response.status === 200 && response.data) {
-          setUserInfo({ ...response.data });
+          const isExist = JSON.parse(localStorage.getItem("chatify"));
+          setUserInfo({ ...response.data,access_token:isExist });
           toast({
             description: "Profile updated successfully",
           });
@@ -101,12 +98,16 @@ const ProfilePage = () => {
       if (file) {
         const formData = new FormData();
         formData.append("profile-image", file);
+        
+        const isExist = userInfo.access_token;
+
         const response = await axios.post(
           `${SERVER_URL}/add_profile_image`,
           formData,
           {
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${isExist}`
             },
             withCredentials: true,
           }
@@ -130,7 +131,9 @@ const ProfilePage = () => {
     try {
       const response = await axios.delete(
         `${SERVER_URL}/remove_profile_image`,
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: { Authorization: `Bearer ${userInfo.access_token}` }
+         }
       );
       if (response.status === 200) {
         setUserInfo({ ...userInfo, image: null }),

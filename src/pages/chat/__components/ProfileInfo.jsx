@@ -18,8 +18,9 @@ const { userInfo , setUserInfo} = useAppStore();
 const navigate=useNavigate()
 const handleLogOut=async()=>{
   try{
-    const response=await axios.post(`${SERVER_URL}/logout`,{},{withCredentials:true})
+    const response=await axios.post(`${SERVER_URL}/logout`,{},{headers: { Authorization: `Bearer ${userInfo.access_token}`},withCredentials:true})
     if(response.status===200){
+      localStorage.removeItem("chatify")
         setUserInfo(null);
         navigate("/auth")
     }

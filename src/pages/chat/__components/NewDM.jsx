@@ -25,7 +25,7 @@ import { useAppStore } from "@/store";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const NewDM = () => {
-  const {setSelectedChatType,setSelectedChatData}=useAppStore();  
+  const {setSelectedChatType,setSelectedChatData,userInfo}=useAppStore();  
   const [openNewContactModel, setOpenNewContactModel] = useState(false);
   const [searchedContacts, setSearchedContacts] = useState([]);
 
@@ -35,7 +35,7 @@ const NewDM = () => {
         const response = await axios.post(
           `${SERVER_URL}/contact/search`,
           { searchTerm },
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${userInfo.access_token}`},withCredentials: true }
         );
         if (response.status === 200 && response.data.contacts) {
           setSearchedContacts(response.data.contacts);

@@ -25,7 +25,7 @@ import MultipleSelector from "@/components/ui/multipleselect";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const CreateChannel = () => {
-  const { addChannel } = useAppStore();
+  const { addChannel,userInfo } = useAppStore();
   const [newChannelModel, setNewChannelModel] = useState(false);
   const [allContacts, setAllContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
@@ -36,7 +36,7 @@ const CreateChannel = () => {
       try {
         const response = await axios.get(
           `${SERVER_URL}/contact/get_all_contacts`,
-          { withCredentials: true }
+          {headers: { Authorization: `Bearer ${userInfo.access_token}`}, withCredentials: true }
         );
         
         setAllContacts(response.data.contacts);
@@ -56,7 +56,7 @@ const CreateChannel = () => {
             name: channelName,
             members: selectedContacts.map((contact) => contact.value),
           },
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${userInfo.access_token}` },withCredentials: true }
         );
         if (response.status === 201) {
           setChannelName(""), setSelectedContacts([]);

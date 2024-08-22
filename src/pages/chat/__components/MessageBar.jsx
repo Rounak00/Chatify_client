@@ -79,7 +79,9 @@ const MessageBar = () => {
             const formData=new FormData();
             formData.append("file",file);
             setIsUploading(true);
-            const response=await axios.post(`${SERVER_URL}/message/upload_file`,formData,{withCredentials:true,
+            const response=await axios.post(`${SERVER_URL}/message/upload_file`,formData,{
+              headers: { Authorization: `Bearer ${userInfo.access_token}`},  
+            withCredentials:true,
             onUploadProgress:data=>{setFileUploadProgress(Math.round((100*data.loaded)/data.total))}});
             if(response.status===200 && response.data){
               setIsUploading(false);
