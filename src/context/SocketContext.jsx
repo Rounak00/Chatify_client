@@ -28,12 +28,31 @@ export const SocketProvider = ({children}) => {
       });
 
       const handleRecieveMessage=(message)=>{
-        const {selectedChatData, selectedChatType,addMessage}=useAppStore.getState();
+        const {selectedChatData, selectedChatType,addMessage,directMessagesContacts,
+          setDirectMessagesContacts,}=useAppStore.getState();
+
         if(selectedChatType!==undefined && 
           (selectedChatData._id===message.sender._id ||
           selectedChatData._id === message.recipient._id))
           { 
             addMessage(message)
+          }
+          const isAlreadyInList = directMessagesContacts.some(
+            (contact) => contact._id === message.sender._id
+          );
+          if (!isAlreadyInList) {
+            setDirectMessagesContacts([
+              {
+                _id: message.sender._id,
+                fname: message.sender.fname,
+                lname: message.sender.lname,
+                email: message.sender.email,
+                image: message.sender.image,
+                color: message.sender.color,
+                lastMessageTime: new Date().toISOString(),
+              },
+              ...directMessagesContacts,
+            ]);
           }
       }
       const handleReceiveChannelMessage = (message) => {
