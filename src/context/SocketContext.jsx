@@ -51,7 +51,7 @@ export const SocketProvider = ({ children }) => {
           };
 
           // Add to top of list
-          setDirectMessagesContacts([newContact, ...directMessagesContacts]);
+          setDirectMessagesContacts((prev) => [newContact, ...prev]);
         }
       }
       const handleReceiveChannelMessage = (message) => {
