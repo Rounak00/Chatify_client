@@ -12,7 +12,7 @@ export const useSocket = () => {
 };
 
 // eslint-disable-next-line react/prop-types
-export const SocketProvider = ({children}) => {
+export const SocketProvider = ({ children }) => {
   const socket = useRef();
   const { userInfo } = useAppStore();
 
@@ -27,45 +27,44 @@ export const SocketProvider = ({children}) => {
         console.log("connected to socket server");
       });
 
-      const handleRecieveMessage=(message)=>{
-        const {selectedChatData, selectedChatType,addMessage,directMessagesContacts,
-          setDirectMessagesContacts,}=useAppStore.getState();
+      const handleRecieveMessage = (message) => {
+        const { selectedChatData, selectedChatType, addMessage, directMessagesContacts,
+          setDirectMessagesContacts, } = useAppStore.getState();
 
-        if(selectedChatType!==undefined && 
-          (selectedChatData._id===message.sender._id ||
-          selectedChatData._id === message.recipient._id))
-          { 
-            addMessage(message)
-          }
-          const isAlreadyInList = directMessagesContacts.some(
-            (contact) => contact._id === message.sender._id
-          );
-          if (!isAlreadyInList) {
-            setDirectMessagesContacts([
-              {
-                _id: message.sender._id,
-                fname: message.sender.fname,
-                lname: message.sender.lname,
-                email: message.sender.email,
-                image: message.sender.image,
-                color: message.sender.color,
-                lastMessageTime: new Date().toISOString(),
-              },
-              ...directMessagesContacts,
-            ]);
-          }
+        if (selectedChatType !== undefined &&
+          (selectedChatData._id === message.sender._id ||
+            selectedChatData._id === message.recipient._id)) {
+          addMessage(message)
+        }
+        const senderId = message.sender._id;
+        const alreadyExists = directMessagesContacts.some((contact) => contact._id === senderId);
+
+        if (!alreadyExists) {
+          const newContact = {
+            _id: senderId,
+            fname: message.sender.fname,
+            lname: message.sender.lname,
+            email: message.sender.email,
+            image: message.sender.image,
+            color: message.sender.color,
+            lastMessageTime: new Date().toISOString(),
+          };
+
+          // Add to top of list
+          setDirectMessagesContacts([newContact, ...directMessagesContacts]);
+        }
       }
       const handleReceiveChannelMessage = (message) => {
         const { selectedChatData, selectedChatType, addMessage } = useAppStore.getState();
-        if (selectedChatType !== undefined && 
-            selectedChatData._id === message.channelId) {
-          
+        if (selectedChatType !== undefined &&
+          selectedChatData._id === message.channelId) {
+
           addMessage(message);
         }
       }
 
-      socket.current.on("recieveMessage",handleRecieveMessage)
-      socket.current.on("receive-channel-message",handleReceiveChannelMessage)
+      socket.current.on("recieveMessage", handleRecieveMessage)
+      socket.current.on("receive-channel-message", handleReceiveChannelMessage)
       return () => {
         socket.current.disconnect();
       };
